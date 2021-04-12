@@ -80,4 +80,3 @@ public class ProductResource {
 		return ResponseEntity.noContent().build();
 	}
 }
-
