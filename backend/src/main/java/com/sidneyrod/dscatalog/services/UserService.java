@@ -2,8 +2,6 @@ package com.sidneyrod.dscatalog.services;
 
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,15 +65,11 @@ public class UserService implements UserDetailsService {
 
 	@Transactional
 	public UserDTO update(Long id, UserUpdateDTO dto) {
-		try {
-		User entity = repository.getOne(id);
+		Optional<User> obj = repository.findById(id);
+		User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found" + id));
 		copyDtoToEntity(dto, entity);
 		entity = repository.save(entity);
 		return new UserDTO(entity);
-		}
-		catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found" + id);
-		}
 	}
 
 	public void delete(Long id) {
