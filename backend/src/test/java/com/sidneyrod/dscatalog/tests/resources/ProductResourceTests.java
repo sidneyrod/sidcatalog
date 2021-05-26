@@ -77,8 +77,8 @@ public class ProductResourceTests {
 		nonExistingId = 2L;
 		dependentId = 3L;
 		
-		newProductDTO = ProductFactory.createProductDTO();
-		existingProductDTO = ProductFactory.createProductDTO();
+		newProductDTO = ProductFactory.createProductDTO(null);
+		existingProductDTO = ProductFactory.createProductDTO(existingId);
 		
 		page = new PageImpl<>(List.of(existingProductDTO));
 		
