@@ -1,9 +1,13 @@
-import React from 'react';
+import React from "react";
 import { Link, NavLink } from 'react-router-dom';
 import './styles.scss';
 
 const Navbar = () => {
     const currentUser = '';
+
+    const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        event.preventDefault();
+    }
 
     return (
         <nav className="row bg-primary main-nav">
@@ -35,7 +39,11 @@ const Navbar = () => {
                 {currentUser && (
                     <>
                         {currentUser}
-                        <a ref="#logout" className="nav-link active">
+                        <a 
+                        href="#logout" 
+                        className="nav-link active d-inline"
+                        onClick={handleLogout}
+                        >
                             LOGOUT
                         </a>
                     </>
