@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -51,18 +53,30 @@ public class ProductService {
 	@Transactional
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
-		copyDtoToEntity(dto, entity);		
+		copyDtoToEntity(dto, entity);
+			if (entity.getCategories().size() == 0) {
+			Category cat = categoryRepository.getOne(1L);
+			entity.getCategories().add(cat);
+			}
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
 	}
 
 	@Transactional
 	public ProductDTO update(Long id, ProductDTO dto) {
-		Optional<Product> obj = repository.findById(id);
-		Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found" + id));
+		try {
+		Product entity = repository.getOne(id);
 		copyDtoToEntity(dto, entity);
+			if (entity.getCategories().size() == 0) {
+				Category cat = categoryRepository.getOne(1L);
+				entity.getCategories().add(cat);
+				}
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found" + id);
+		}
 	}
 
 	public void delete(Long id) {

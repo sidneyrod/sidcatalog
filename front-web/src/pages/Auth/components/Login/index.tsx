@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { saveSessionData } from 'core/utils/auth';
 import './styles.scss';
 
-type FormData = {
+type FormState = {
     username: string;
     password: string;
 }
@@ -18,14 +18,14 @@ type LocationState = {
 }
 
 const Login = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, formState: { errors } } = useForm<FormState>();
     const [hasError, setHasError] = useState(false);
     const history = useHistory();
     const location = useLocation<LocationState>();
 
     const { from } = location.state || { from: { pathname: "/admin" } };
 
-    const onSubmit = (data: FormData) => {
+    const onSubmit = (data: FormState) => {
         makeLogin(data)
             .then(response => {
                 setHasError(false);
@@ -48,32 +48,32 @@ const Login = () => {
                 <div className="margin-bottom-30">
                     <input
                         type="email"
-                        className={`form-control input-base ${errors.username ? 'is-invalid' : '' }`}
+                        className={`form-control input-base ${errors.username ? 'is-invalid' : ''}`}
                         placeholder="Email"
-                        {...register('username', { 
-                            required: true, 
-                            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i                            
+                        {...register('username', {
+                            required: true,                            
+                            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
                         })}
                     />
                     {errors.username && (
                         <div className="invalid-feedback d-block">
-                        Email inválido
-                    </div>
+                            Email inválido
+                        </div>
                     )}
                 </div>
                 <div className="margin-bottom-30">
                     <input
                         type="password"
-                        className={`form-control input-base ${errors.password ? 'is-invalid' : '' }`}
+                        className={`form-control input-base ${errors.password ? 'is-invalid' : ''}`}
                         placeholder="Senha"
-                        {...register('password', { 
-                            required: true 
+                        {...register('password', {
+                            required: true
                         })}
                     />
                     {errors.password && (
                         <div className="invalid-feedback d-block">
-                        Senha inválida
-                    </div>
+                            Senha inválida
+                        </div>
                     )}
                 </div>
                 <Link to="/auth/recover" className="login-link-recover">
