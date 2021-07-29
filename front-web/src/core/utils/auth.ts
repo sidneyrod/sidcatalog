@@ -7,7 +7,7 @@ type LoginResponse = {
     access_token: string;
     token_type: string;
     expires_in: number;
-    scope: string;    
+    scope: string;
     userFirstName: string;
     userID: number;
 }
@@ -32,8 +32,8 @@ export const getSessionData = () => {
 
 export const getAccessTokenDecoded = () => {
     const sessionData = getSessionData();
-    
-    try{
+
+    try {
         const tokenDecoded = jwtDecode(sessionData.access_token);
         return tokenDecoded as AccessToken;
     }
@@ -63,4 +63,4 @@ export const isAllowedByRole = (routeRoles: Role[] = []) => {
 export const logout = () => {
     localStorage.removeItem('authData')
     history.replace('/auth/login')
-  }
+}
