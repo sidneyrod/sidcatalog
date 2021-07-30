@@ -40,7 +40,7 @@ public class ProductService {
 		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
 		Page<Product> page =  repository.find(categories, name, pageRequest);
 		repository.findProductWithCategories(page.getContent());
-		return page.map(x -> new ProductDTO(x, x.getCategories()));	 
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 	}
 	
 	@Transactional(readOnly = true)
