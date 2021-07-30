@@ -43,11 +43,11 @@ const Form = () => {
             data
         })
             .then(() => {
-                toast.info('Produto salvo com sucesso!')
+                toast.info('Produto salvo com sucesso!');
                 history.push('/admin/products');
             })
             .catch(() => {
-                toast.error('Erro ao salvar produto!')
+                toast.error('Erro ao salvar produto!');
             })
     }
 
