@@ -7,9 +7,10 @@ import { useState } from 'react';
 import BaseForm from '../../BaseForm/Index';
 import Select from 'react-select'
 import { Category } from 'core/types/Product';
+import PriceField from './PriceField';
 import './styles.scss';
 
-type FormState = {
+export type FormState = {
     name: string;
     price: string;
     description: string;
@@ -95,16 +96,18 @@ const Form = () => {
                                 name="categories"
                                 rules={{ required: true }}
                                 control={control}
-                                render={({ field }) => <Select
-                                    {...field}
-                                    isLoading={isLoadingCategories}
-                                    options={categories}
-                                    getOptionLabel={(option: Category) => option.name}
-                                    getOptionValue={(option: Category) => String(option.id)}
-                                    classNamePrefix="categories-select"
-                                    placeholder="Categorias"
-                                    isMulti
-                                />}
+                                render={({ field }) =>
+                                    <Select
+                                        {...field}
+                                        isLoading={isLoadingCategories}
+                                        options={categories}
+                                        getOptionLabel={(option: Category) => option.name}
+                                        getOptionValue={(option: Category) => String(option.id)}
+                                        classNamePrefix="categories-select"
+                                        placeholder="Categorias"
+                                        inputId="categories"
+                                        isMulti
+                                    />}
                             />
                             {errors.categories && (
                                 <div className="invalid-feedback d-block">
@@ -113,13 +116,7 @@ const Form = () => {
                             )}
                         </div>
                         <div className="margin-bottom-30">
-                            <input
-                                {...register('price', { required: true })}
-                                name="price"
-                                type="number"
-                                className="form-control input-base"
-                                placeholder="Preço"
-                            />
+                            <PriceField control={control}/>
                             {errors.price && (
                                 <div className="invalid-feedback d-block">
                                     Inserir o preço do produto
